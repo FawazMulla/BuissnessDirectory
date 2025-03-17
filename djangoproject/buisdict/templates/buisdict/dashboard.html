@@ -11,10 +11,9 @@
     
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <!-- Business Directory Name (Left) -->
+            
             <a class="navbar-brand" href="#">Business Directory</a>
     
-            <!-- Logout Button (Right) -->
             <form action="{% url 'logout' %}" method="post" class="ml-auto">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">

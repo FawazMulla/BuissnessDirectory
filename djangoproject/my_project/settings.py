@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'buisdict'
+    'buisdict',
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -132,3 +135,7 @@ EMAIL_HOST_PASSWORD = 'ukmgjgucgomdxfwm'  # Use app password if needed
 
 LOGIN_REDIRECT_URL = "/dashboard/"
 LOGIN_URL = "/login/"
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

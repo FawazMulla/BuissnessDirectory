@@ -71,7 +71,13 @@
         <a class="btn btn-outline-light" href="#"><i class="fas fa-envelope"></i> Contact Us</a>
     </div>
 </nav>
-
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tag }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 <!-- Main Content Block -->
 <div class="content container">
     {% block content %}{% endblock %}
