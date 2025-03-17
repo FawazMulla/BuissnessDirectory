@@ -129,3 +129,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'fawaz.tech21@gmail.com'  # Replace with your email
 EMAIL_HOST_PASSWORD = 'ukmgjgucgomdxfwm'  # Use app password if needed
+
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGIN_URL = "/login/"
