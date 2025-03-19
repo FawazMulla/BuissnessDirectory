@@ -35,3 +35,12 @@ class UserRegisterForm(UserCreationForm):
                   'google_map_link',
                   'images'
                   ]
+        
+class ContactUSForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'rows': 2, 
+        'cols': 40, 
+        'style': 'width: 500px; height: 80px;'}),required=True)

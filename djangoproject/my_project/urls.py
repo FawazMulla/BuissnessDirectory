@@ -23,7 +23,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('buisdict.urls')),
-    path('register/',user_view.register,name="register"),
+    path('', include('users.urls')),
+    # path('register/',user_view.register,name="register"),
+    # path('contact/',user_view.contactus,name="contact"),
     
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

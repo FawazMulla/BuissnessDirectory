@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
+from django.core.mail import send_mail
 from .forms import UserRegisterForm
+from .forms import ContactUSForm
+from django.conf import settings
 
 def register(request):
     if request.method == 'POST':
@@ -14,4 +17,28 @@ def register(request):
         form = UserRegisterForm()
     return render(request,'users/register.html',{'form':form})
 
+def contactus(request):
+    if request.method == 'POST':
+        form = ContactUSForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            email = form.cleaned_data.get('email')
+            subject = form.cleaned_data.get('subject')
+            message = form.cleaned_data.get('message')
+            try:
+                send_mail(
+                f"New Contact Form Submission: {subject}",  # More descriptive subject
+                f"From: {name} <{email}>\n\n{message}",  # Includes sender's details
+                settings.EMAIL_HOST_USER,
+                [settings.EMAIL_HOST_USER],
+                fail_silently=False,  # Will raise an error if email fails
+                )
+                messages.success(request,f'Thank you {name} for contacting us. We will get back to you soon.')
+                return redirect('index')
+            except Exception as e:
+                messages.error(request, "Error sending email. Please try again later.")
+                # print(f"Email Error: {e}")
+    else:
+        form = ContactUSForm()
+    return render(request,'users/contactus.html',{'form':form})
 
