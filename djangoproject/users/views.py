@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from .forms import UserRegisterForm
 from .forms import ContactUSForm
 from django.conf import settings
+from .models import Profile
 
 def register(request):
     if request.method == 'POST':
@@ -41,4 +42,9 @@ def contactus(request):
     else:
         form = ContactUSForm()
     return render(request,'users/contactus.html',{'form':form})
+
+def explorer(request):
+    explore_list = Profile.objects.all()
+    return render(request,'users/explorer.html',
+                  {'explore_list':explore_list})
 

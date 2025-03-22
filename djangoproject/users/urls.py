@@ -5,4 +5,5 @@ urlpatterns = [
 
     path('register/', views.register, name='register'),  # Added register URL
     path('contact/', views.contactus, name='contact'),  # Added contact us URL
+    path('explorer/', views.explorer, name='explorer'),  # Added explorer URL
 ]
