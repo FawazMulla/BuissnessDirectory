@@ -13,7 +13,7 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpg',upload_to='images_uploaded',blank=True, null=True)
 
     def __str__(self):
-        return f'{self.user.username} Profile '
+        return f'{self.user.username}'
     
 class ContactUS(models.Model):
     name = models.CharField(max_length=100)

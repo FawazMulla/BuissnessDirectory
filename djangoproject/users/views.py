@@ -11,6 +11,15 @@ def register(request):
         form = UserRegisterForm(request.POST,request.FILES)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(
+                user=user,
+                business_name=form.cleaned_data['buiness_name'],  # Typo fixed from 'buiness_name' to 'business_name'
+                contact_no=form.cleaned_data['contact_no'],
+                address=form.cleaned_data['address'],
+                about=form.cleaned_data.get('about', ''),  # Optional field
+                google_map_link=form.cleaned_data['google_map_link'],
+                images=form.cleaned_data.get('images', None))
+            
             username = form.cleaned_data.get('username')
             messages.success(request,f'Your Account Created for username: {username} . You can login now')
             return redirect('login')
@@ -45,6 +54,6 @@ def contactus(request):
 
 def explorer(request):
     explore_list = Profile.objects.all()
-    return render(request,'users/explorer.html',
+    return render(request,'users/explore.html',
                   {'explore_list':explore_list})
 

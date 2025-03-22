@@ -4,5 +4,31 @@
 {% block title %}Explore Business{% endblock %}
 
 {% block content %}
-{{explorer}}
+<ul>
+{% for explore in explore_list %}
+
+    <strong>{{explore}}</strong>
+    <ul>
+    <li>{{explore.google_map_link}}</li>
+    <li>{{explore.buiness_name}}</li>
+    <li>{{explore.address}}</li>
+    <li>{{explore.contact_no}}</li>
+    <li>
+        <section>
+            <img
+            src = "{{explore.image.url}}" 
+            alt = "{{explore.buiness_name}}"
+            style = "width: 100px; height: 100px;"
+            />
+        </section>
+    </li>
+
+
+    </ul>
+    <br>
+
+{% endfor %}
+</ul>
+
+
 {% endblock %}
