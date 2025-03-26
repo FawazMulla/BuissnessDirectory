@@ -13,12 +13,12 @@ def register(request):
             user = form.save()
             Profile.objects.create(
                 user=user,
-                business_name=form.cleaned_data['buiness_name'],  # Typo fixed from 'buiness_name' to 'business_name'
+                buiness_name=form.cleaned_data['buiness_name'],  # Typo fixed from 'buiness_name' to 'business_name'
                 contact_no=form.cleaned_data['contact_no'],
                 address=form.cleaned_data['address'],
                 about=form.cleaned_data.get('about', ''),  # Optional field
                 google_map_link=form.cleaned_data['google_map_link'],
-                images=form.cleaned_data.get('images', None))
+                image=form.cleaned_data.get('image', None))
             
             username = form.cleaned_data.get('username')
             messages.success(request,f'Your Account Created for username: {username} . You can login now')
@@ -38,7 +38,7 @@ def contactus(request):
             try:
                 send_mail(
                 f"New Contact Form Submission: {subject}",  # More descriptive subject
-                f"From: {name} <{email}>\n\n{message}",  # Includes sender's details
+                f"From: {name} \nEMAIL:- <{email}>\nSUBJECT:- {subject}\nMESSAGE:- {message}\n",  # Includes sender's details
                 settings.EMAIL_HOST_USER,
                 [settings.EMAIL_HOST_USER],
                 fail_silently=False,  # Will raise an error if email fails

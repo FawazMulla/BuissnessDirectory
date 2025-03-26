@@ -1,0 +1,15 @@
+<section class="text-left">
+            {% if user.profile.image and user.profile.image.url %}
+                <img src="{{ user.profile.image.url }}" alt="Profile Image"
+                style="width: 200px; height: 200px; object-fit: cover;"
+                 class="img-fluid rounded shadow">
+            {% else %}
+                <p>No profile image available.</p>
+            {% endif %}
+            
+user.profile accesses the Profile model linked to User.
+
+user.profile.image gets the actual image field.
+
+user.profile.image.url ensures the image URL is valid before rendering.
+        </section
