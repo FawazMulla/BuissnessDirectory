@@ -12,4 +12,4 @@ user.profile accesses the Profile model linked to User.
 user.profile.image gets the actual image field.
 
 user.profile.image.url ensures the image URL is valid before rendering.
-        </section
+        </section>

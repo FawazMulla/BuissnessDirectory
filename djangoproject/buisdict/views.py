@@ -32,7 +32,7 @@ def logout_view(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'buisdict/dashboard.html')
+    return render(request, 'buisdict/dashboard.html',{'user': request.user})
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):

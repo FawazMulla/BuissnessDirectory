@@ -1,25 +1,216 @@
 <!DOCTYPE html>
-
-</style>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Business Profile</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      background-color: #f7f5f2;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .navbar {
+      background-color: #1d3557;
+    }
+
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+      color: #f1faee !important;
+    }
+
+    .profile-card {
+      background: #ffffff;
+      border-radius: 25px;
+      padding: 40px;
+      margin-top: 40px;
+      margin-bottom: 60px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+      min-height: 400px;
+    }
+
+    .profile-photo {
+      width: 260px;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.02);
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #333;
+      min-width: 100px;
+      display: inline-block;
+    }
+
+    .footer {
+      background-color: #1d3557;
+      color: #f1faee;
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    .profile-buttons .btn {
+      margin-left: 10px;
+    }
+
+    .modal-img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
 </head>
-<body >
-    <header class="bg-primary text-white py-3">
-        <div class="container"></div>
-            <nav class="d-flex justify-content-between align-items-center">
-                <h1 class="h3">Dashboard</h1>
-                <ul class="nav"></ul>
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'index' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'logout' %}">Logout</a></li>
-                </ul>
-            </nav>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand">
+
+      <a class="navbar-brand" href="{% url 'index' %}">Esypto</a>
+      <div class="ml-auto">
+        <a href="#" class="btn btn-outline-light">Edit Profile</a>
+        <a href="{%url 'logout'%}" class="btn btn-danger ml-2">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <div class="profile-card d-flex flex-wrap align-items-start justify-content-between">
+        
+        <!-- Profile Image -->
+        <div>
+          {% if user.profile.image and user.profile.image.url %}
+            <img src="{{ user.profile.image.url }}" alt="Business Photo" class="profile-photo" data-toggle="modal" data-target="#imageModal">
+          {% else %}
+            <p>No profile image available.</p>
+          {% endif %}
         </div>
-    </header>
+
+        <!-- Info Section -->
+        <div class="ml-md-5 mt-4 mt-md-0 flex-grow-1">
+            <h5>ABOUT</h5>
+            <p><span class="info-label">Business Name:</span> {{ user.profile.buiness_name}}</p>
+            <p><span class="info-label">Owner:</span> {{ user.username }}</p>
+            <p><span class="info-label">Email:</span> {{ user.email }}</p>
+          <p><span class="info-label">Phone:</span> {{ user.profile.contact_no }}</p>
+          <p><span class="info-label">Address:</span> {{ user.profile.address }}</p>
+          <p><span class="info-label">Location:</span> <a href= "{{ user.profile.google_map_link }}" >View on Map</a></p>
+          <p><span class="info-label">Category:</span> {{ user.profile.category }}</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      &copy; {{ year|default:"2025" }} MyBusiness. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Image Modal -->
+  <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+        <img src="{{ user.profile.image.url }}" alt="Enlarged Image" class="modal-img rounded mx-auto d-block">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Business Owner Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #3f2b96, #00d2ff);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card {
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .profile-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+    .info-title {
+      color: #6c757d;
+      font-weight: 500;
+    }
+    .edit-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="card position-relative">
+            {% if user.profile.image and user.profile.image.url %}
+            <img src="{{ user.profile.image.url }}" alt="Business Photo" class="profile-image">
+            {% else %}
+                <p>No profile image available.</p>
+            {% endif %}
+          <button class="btn btn-outline-secondary edit-btn">Edit Profile</button>
+          <div class="card-body">
+            <h3 class="card-title mb-1">{{ user.profile.buiness_name }}</h3>
+            <p class="text-primary mb-3">Interior Design & Architecture</p>
+
+            <ul class="list-unstyled">
+              <li><span class="info-title">Email:</span> {{ user.email }}</li>
+              <li><span class="info-title">Phone:</span> {{user.profile.contact_no}}</li>
+              <li><span class="info-title">Location:</span> <a href={{user.profile.google_map_link}}>Google Map Link</a></li>
+            </ul>
+            <hr>
+            <h5>About the Business
+                
+            </h5>
+            <p>{{user.profile.about}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>
+
     <main class="container my-4">
         <section class="row text-center mb-4">
             <div class="col-md-4">
@@ -48,17 +239,4 @@
             {% else %}
                 <p>No profile image available.</p>
             {% endif %}
-        <section class="text-center mt-4">
-            <a href="#" class="btn btn-primary">Edit Profile</a>
-        </section>
-        
-    
-    </main>
-    <footer class="bg-light py-3 mt-4">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2023 Business Directory. All rights reserved.</p>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  -->
