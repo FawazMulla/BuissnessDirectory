@@ -9,10 +9,10 @@
     html, body {
       height: 100%;
       margin: 0;
-      display: flex;
-      flex-direction: column;
       background-color: #f7f5f2;
       font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
     }
 
     main {
@@ -35,11 +35,11 @@
       margin-top: 40px;
       margin-bottom: 60px;
       box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-      min-height: 400px;
     }
 
     .profile-photo {
-      width: 260px;
+      width: 100%;
+      max-width: 260px;
       height: 260px;
       object-fit: cover;
       border-radius: 20px;
@@ -66,10 +66,6 @@
       padding: 15px 0;
     }
 
-    .profile-buttons .btn {
-      margin-left: 10px;
-    }
-
     .modal-img {
       max-width: 100%;
       height: auto;
@@ -80,42 +76,42 @@
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand">
-
-      <a class="navbar-brand" href="{% url 'index' %}">Esypto</a>
-      <div class="ml-auto">
-        <a href="#" class="btn btn-outline-light">Edit Profile</a>
-        <a href="{%url 'logout'%}" class="btn btn-danger ml-2">Logout</a>
-      </div>
+  <nav class="navbar navbar-expand px-4">
+    <a class="navbar-brand" href="{% url 'index' %}">Esypto</a>
+    <div class="ml-auto">
+      <a href="{% url 'update_info' %}" class="btn btn-outline-light">Edit Profile</a>
+      <a href="{% url 'logout' %}" class="btn btn-danger ml-2">Logout</a>
     </div>
   </nav>
 
   <!-- Main Content -->
   <main>
     <div class="container">
-      <div class="profile-card d-flex flex-wrap align-items-start justify-content-between">
-        
-        <!-- Profile Image -->
-        <div>
-          {% if user.profile.image and user.profile.image.url %}
-            <img src="{{ user.profile.image.url }}" alt="Business Photo" class="profile-photo" data-toggle="modal" data-target="#imageModal">
-          {% else %}
-            <p>No profile image available.</p>
-          {% endif %}
-        </div>
+      <div class="profile-card">
+        <div class="row align-items-center">
+          
+          <!-- Profile Image Column -->
+          <div class="col-md-4 text-center mb-4 mb-md-0">
+            {% if user.profile.image and user.profile.image.url %}
+              <img src="{{ user.profile.image.url }}" alt="Business Photo" class="profile-photo" data-toggle="modal" data-target="#imageModal">
+            {% else %}
+              <p>No profile image available.</p>
+            {% endif %}
+          </div>
 
-        <!-- Info Section -->
-        <div class="ml-md-5 mt-4 mt-md-0 flex-grow-1">
+          <!-- Info Section Column -->
+          <div class="col-md-8">
             <h5>ABOUT</h5>
-            <p><span class="info-label">Business Name:</span> {{ user.profile.buiness_name}}</p>
+            <p><span class="info-label">Business Name:</span> {{ user.profile.buiness_name }}</p>
             <p><span class="info-label">Owner:</span> {{ user.username }}</p>
             <p><span class="info-label">Email:</span> {{ user.email }}</p>
-          <p><span class="info-label">Phone:</span> {{ user.profile.contact_no }}</p>
-          <p><span class="info-label">Address:</span> {{ user.profile.address }}</p>
-          <p><span class="info-label">Location:</span> <a href= "{{ user.profile.google_map_link }}" >View on Map</a></p>
-          <p><span class="info-label">Category:</span> {{ user.profile.category }}</p>
+            <p><span class="info-label">Phone:</span> {{ user.profile.contact_no }}</p>
+            <p><span class="info-label">Address:</span> {{ user.profile.address }}</p>
+            <p><span class="info-label">Location:</span> <a href="{{ user.profile.google_map_link }}" target="_blank">View on Map</a></p>
+            <p><span class="info-label">Category:</span> {{ user.profile.profile_type }}</p>
+            <p><span class="info-label">About:</span> {{ user.profile.about }}</p>
+          </div>
         </div>
-
       </div>
     </div>
   </main>
@@ -123,7 +119,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      &copy; {{ year|default:"2025" }} MyBusiness. All rights reserved.
+      &copy; {{ year|default:"2025" }} Esypto. All rights reserved.
     </div>
   </footer>
 
@@ -142,101 +138,3 @@
 
 </body>
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Business Owner Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(to right, #3f2b96, #00d2ff);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .card {
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .profile-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-    }
-    .info-title {
-      color: #6c757d;
-      font-weight: 500;
-    }
-    .edit-btn {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-        <div class="card position-relative">
-            {% if user.profile.image and user.profile.image.url %}
-            <img src="{{ user.profile.image.url }}" alt="Business Photo" class="profile-image">
-            {% else %}
-                <p>No profile image available.</p>
-            {% endif %}
-          <button class="btn btn-outline-secondary edit-btn">Edit Profile</button>
-          <div class="card-body">
-            <h3 class="card-title mb-1">{{ user.profile.buiness_name }}</h3>
-            <p class="text-primary mb-3">Interior Design & Architecture</p>
-
-            <ul class="list-unstyled">
-              <li><span class="info-title">Email:</span> {{ user.email }}</li>
-              <li><span class="info-title">Phone:</span> {{user.profile.contact_no}}</li>
-              <li><span class="info-title">Location:</span> <a href={{user.profile.google_map_link}}>Google Map Link</a></li>
-            </ul>
-            <hr>
-            <h5>About the Business
-                
-            </h5>
-            <p>{{user.profile.about}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-</body>
-</html>
-
-    <main class="container my-4">
-        <section class="row text-center mb-4">
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h2 class="card-title h5">Welcome, {{ user.buiness_name }}</h2>
-                        <p class="card-text">Email: {{ user.email }}</p>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h2 class="card-title h5">Your Businesses</h2>
-                        <p class="card-text fs-4">{{ user_business_count }}</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="text-left">
-            {% if user.profile.image and user.profile.image.url %}
-                <img src="{{ user.profile.image.url }}" alt="Profile Image"
-                style="width: 200px; height: 200px; object-fit: cover;"
-                 class="img-fluid rounded shadow">
-            {% else %}
-                <p>No profile image available.</p>
-            {% endif %}
-  -->

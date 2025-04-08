@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.core.mail import send_mail
-from .forms import UserRegisterForm
-from .forms import ContactUSForm
+from django.contrib.auth.decorators import login_required
+from users.forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
+from users.forms import ContactUSForm
 from django.conf import settings
 from .models import Profile
 
@@ -18,8 +19,9 @@ def register(request):
                 address=form.cleaned_data['address'],
                 about=form.cleaned_data.get('about', ''),  # Optional field
                 google_map_link=form.cleaned_data['google_map_link'],
-                image=form.cleaned_data.get('image', None))
-            
+                image=form.cleaned_data.get('image', None),
+                profile_type=form.cleaned_data['profile_type'],
+            )
             username = form.cleaned_data.get('username')
             messages.success(request,f'Your Account Created for username: {username} . You can login now')
             return redirect('login')
@@ -51,6 +53,26 @@ def contactus(request):
     else:
         form = ContactUSForm()
     return render(request,'users/contactus.html',{'form':form})
+
+@login_required
+def update_info(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST,  request.FILES,instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('dashboard')  
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'users/update_info.html', context)
 
 def explorer(request):
     explore_list = Profile.objects.all()
