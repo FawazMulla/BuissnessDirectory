@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
@@ -79,3 +79,14 @@ def explorer(request):
     return render(request,'users/explore.html',
                   {'explore_list':explore_list})
 
+
+def explore_category(request, category=None):
+    if category:
+        explore_list = Profile.objects.filter(profile_type__iexact=category)
+    else:
+        explore_list = Profile.objects.all()
+    return render(request, 'users/explore.html', {'explore_list': explore_list, 'category': category})
+
+def business_detail(request, pk):
+    business = get_object_or_404(Profile, pk=pk)
+    return render(request, 'users/explore_cat.html', {'business': business})

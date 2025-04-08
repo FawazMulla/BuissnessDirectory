@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('buisdict.urls')),
     path('', include('users.urls')),
+    
     # path('register/',user_view.register,name="register"),
     # path('contact/',user_view.contactus,name="contact"),
     
