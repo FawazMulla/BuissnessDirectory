@@ -21,7 +21,7 @@ class UserRegisterForm(UserCreationForm):
         'rows': 2, 
         'cols': 40, 
         'style': 'width: 600px; height: 80px;'}),required=False)
-    images = forms.ImageField(required=False)
+    image = forms.ImageField(required=False)
     google_map_link = forms.URLField(required=True)
     CATEGORY_CHOICES = [
         ('medical', 'Medical'),
@@ -38,7 +38,7 @@ class UserRegisterForm(UserCreationForm):
                   'profile_type',
                   'about',
                   'google_map_link',
-                  'images'
+                  'image'
                   ]
         
 class ContactUSForm(forms.Form):
@@ -74,7 +74,7 @@ class ProfileUpdateForm(forms.ModelForm):
             'rows': 2, 
             'cols': 40, 
             'style': 'width: 600px; height: 80px;'}),required=False)
-    images = forms.ImageField(required=False)
+    image = forms.ImageField(required=False)
     google_map_link = forms.URLField(required=True)
     CATEGORY_CHOICES = [
             ('medical', 'Medical'),
@@ -87,7 +87,7 @@ class ProfileUpdateForm(forms.ModelForm):
                     'profile_type',
                     'about',
                     'google_map_link',
-                    'images',
+                    'image',
                     'contact_no',
                     'address'
                     ]

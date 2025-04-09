@@ -91,13 +91,12 @@
         <div class="row align-items-center">
           
           <!-- Profile Image Column -->
-          <div class="col-md-4 text-center mb-4 mb-md-0">
-            {% if user.profile.image and user.profile.image.url %}
-              <img src="{{ user.profile.image.url }}" alt="Business Photo" class="profile-photo" data-toggle="modal" data-target="#imageModal">
-            {% else %}
-              <p>No profile image available.</p>
-            {% endif %}
-          </div>
+          {% if user.profile.image %}
+          <img src="{{ user.profile.image.url }}" alt="Business Photo" class="profile-photo" data-toggle="modal" data-target="#imageModal">
+        {% else %}
+          <p>No profile image available.</p>
+        {% endif %}
+        
 
           <!-- Info Section Column -->
           <div class="col-md-8">
@@ -124,13 +123,15 @@
   </footer>
 
   <!-- Image Modal -->
-  <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content bg-transparent border-0">
-        <img src="{{ user.profile.image.url }}" alt="Enlarged Image" class="modal-img rounded mx-auto d-block">
-      </div>
+  {% if user.profile.image %}
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-transparent border-0">
+      <img src="{{ user.profile.image.url }}" alt="Enlarged Image" class="modal-img rounded mx-auto d-block">
     </div>
   </div>
+</div>
+{% endif %}
 
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
