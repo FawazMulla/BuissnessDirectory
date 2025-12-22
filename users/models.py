@@ -24,6 +24,19 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username}'
+
+class BusinessGallery(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='gallery_images')
+    image = models.ImageField(upload_to='business_gallery/')
+    caption = models.CharField(max_length=200, blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural = "Business Galleries"
+        ordering = ['-uploaded_at']
+    
+    def __str__(self):
+        return f'{self.profile.buiness_name} - Gallery Image'
     
 class ContactUS(models.Model):
     name = models.CharField(max_length=100)

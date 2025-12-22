@@ -1,17 +1,275 @@
 {% extends "buisdict/base.html" %}
 
-{% block title %}Esypto{% endblock %}
+{% block title %}Esypto - Modern Business Directory Platform{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <p>Find the best businesses and services in your area. Explore now!</p>
-            <a href="{% url 'explore' %}" class="btn btn-success"><i class="fas fa-search"></i> Explore</a>
+<!-- Modern Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Connect. Discover. Grow.</h1>
+        <p class="hero-subtitle">The modern business directory platform that connects professionals and businesses through innovative technology and seamless experiences.</p>
+        
+        <!-- Advanced Search -->
+        <div class="search-container">
+            <i class="fas fa-search" style="color: var(--text-tertiary); font-size: 1.2rem;"></i>
+            <input type="text" class="search-input" placeholder="Search businesses, services, or professionals...">
+            <button class="search-btn">
+                <i class="fas fa-arrow-right"></i>
+                Search
+            </button>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number" data-count="15000">0</span>
+                <span class="stat-label">Verified Businesses</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="50000">0</span>
+                <span class="stat-label">Active Users</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="120">0</span>
+                <span class="stat-label">Categories</span>
+            </div>
         </div>
     </div>
-    <div class="col-md-6 d-flex align-items-center">
-        <p class="lead"><i class="fas fa-map-marker-alt"></i> The best platform for finding local businesses. Browse categories to find what you need!</p>
+</section>
+
+<!-- Features Section -->
+<section class="py-xl">
+    <div class="container">
+        <div class="text-center mb-lg">
+            <h2>Why Choose Esypto?</h2>
+            <p style="color: var(--text-secondary); font-size: var(--font-size-lg); max-width: 600px; margin: 0 auto;">
+                Experience the future of business networking with our cutting-edge platform designed for modern professionals.
+            </p>
+        </div>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                <h3>Verified & Trusted</h3>
+                <p>Every business undergoes rigorous verification to ensure authenticity and reliability for your peace of mind.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3>Smart Networking</h3>
+                <p>AI-powered recommendations help you discover relevant businesses and build meaningful professional connections.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Growth Analytics</h3>
+                <p>Advanced insights and analytics help businesses understand their reach and optimize their presence.</p>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- Categories Showcase -->
+<section class="py-xl" style="background: var(--bg-secondary);">
+    <div class="container">
+        <div class="text-center mb-lg">
+            <h2>Explore Categories</h2>
+            <p style="color: var(--text-secondary); font-size: var(--font-size-lg);">
+                Discover businesses across diverse industries and sectors
+            </p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg);">
+            <a href="{% url 'explore_category' 'medical' %}" class="card card-interactive" style="text-decoration: none; color: inherit;">
+                <div style="display: flex; align-items: center; gap: var(--space-lg);">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary)); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-xl);">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--space-xs);">Healthcare & Medical</h4>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: var(--font-size-sm);">Hospitals, clinics, specialists</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="{% url 'explore_category' 'food' %}" class="card card-interactive" style="text-decoration: none; color: inherit;">
+                <div style="display: flex; align-items: center; gap: var(--space-lg);">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-xl);">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--space-xs);">Food & Dining</h4>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: var(--font-size-sm);">Restaurants, cafes, catering</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="{% url 'explore' %}" class="card card-interactive" style="text-decoration: none; color: inherit;">
+                <div style="display: flex; align-items: center; gap: var(--space-lg);">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981, #059669); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-xl);">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--space-xs);">Professional Services</h4>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: var(--font-size-sm);">Consulting, legal, finance</p>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="{% url 'explore' %}" class="card card-interactive" style="text-decoration: none; color: inherit;">
+                <div style="display: flex; align-items: center; gap: var(--space-lg);">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-xl);">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--space-xs);">Technology</h4>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: var(--font-size-sm);">Software, IT services, startups</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <div class="text-center mt-lg">
+            <a href="{% url 'explore' %}" class="btn btn-primary">
+                <i class="fas fa-th"></i>
+                Explore All Categories
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-xl" style="background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%); color: white; text-align: center; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;><defs><pattern id=&quot;dots&quot; width=&quot;20&quot; height=&quot;20&quot; patternUnits=&quot;userSpaceOnUse&quot;><circle cx=&quot;10&quot; cy=&quot;10&quot; r=&quot;1&quot; fill=&quot;rgba(255,255,255,0.1)&quot;/></pattern></defs><rect width=&quot;100&quot; height=&quot;100&quot; fill=&quot;url(%23dots)&quot;/></svg>'); opacity: 0.3;"></div>
+    
+    <div class="container" style="position: relative; z-index: 1;">
+        <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: var(--space-lg); color: white;">Ready to Transform Your Business?</h2>
+        <p style="font-size: var(--font-size-xl); opacity: 0.9; max-width: 600px; margin: 0 auto var(--space-2xl); color: white;">
+            Join thousands of businesses already thriving on Esypto. Start building meaningful connections today.
+        </p>
+        
+        <div style="display: flex; justify-content: center; gap: var(--space-lg); flex-wrap: wrap;">
+            <a href="{% url 'register' %}" class="btn" style="background: white; color: var(--brand-primary); padding: var(--space-lg) var(--space-2xl); font-size: var(--font-size-lg); box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);">
+                <i class="fas fa-rocket"></i>
+                Get Started Free
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-ghost" style="border-color: white; color: white; padding: var(--space-lg) var(--space-2xl); font-size: var(--font-size-lg);">
+                <i class="fas fa-phone"></i>
+                Contact Sales
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-xl">
+    <div class="container">
+        <div class="text-center mb-lg">
+            <h2>Trusted by Industry Leaders</h2>
+            <p style="color: var(--text-secondary); font-size: var(--font-size-lg);">
+                See what our partners say about Esypto
+            </p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--space-xl);">
+            <div class="card">
+                <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                        JD
+                    </div>
+                    <div>
+                        <h5 style="margin-bottom: var(--space-xs);">John Doe</h5>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: var(--font-size-sm);">CEO, TechCorp</p>
+                    </div>
+                </div>
+                <p style="color: var(--text-secondary); font-style: italic;">"Esypto has revolutionized how we connect with partners. The platform's intuitive design and powerful features have significantly expanded our business network."</p>
+            </div>
+            
+            <div class="card">
+                <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                        SM
+                    </div>
+                    <div>
+                        <h5 style="margin-bottom: var(--space-xs);">Sarah Miller</h5>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: var(--font-size-sm);">Founder, HealthPlus</p>
+                    </div>
+                </div>
+                <p style="color: var(--text-secondary); font-style: italic;">"The verification process gives us confidence in every connection. Esypto's commitment to quality and authenticity sets it apart from other platforms."</p>
+            </div>
+            
+            <div class="card">
+                <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+                        MJ
+                    </div>
+                    <div>
+                        <h5 style="margin-bottom: var(--space-xs);">Michael Johnson</h5>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: var(--font-size-sm);">Director, Global Consulting</p>
+                    </div>
+                </div>
+                <p style="color: var(--text-secondary); font-style: italic;">"The analytics and insights provided by Esypto have helped us understand our market better and make data-driven decisions for growth."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Counter Animation
+function animateCounters() {
+    const counters = document.querySelectorAll('[data-count]');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-count'));
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                counter.textContent = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                counter.textContent = Math.floor(current).toLocaleString();
+            }
+        }, 16);
+    });
+}
+
+// Trigger counter animation when hero section is visible
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounters();
+            observer.unobserve(entry.target);
+        }
+    });
+});
+
+observer.observe(document.querySelector('.hero'));
+
+// Search functionality
+document.querySelector('.search-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const query = this.value.trim();
+        if (query) {
+            window.location.href = `{% url 'explore' %}?search=${encodeURIComponent(query)}`;
+        }
+    }
+});
+
+document.querySelector('.search-btn').addEventListener('click', function() {
+    const query = document.querySelector('.search-input').value.trim();
+    if (query) {
+        window.location.href = `{% url 'explore' %}?search=${encodeURIComponent(query)}`;
+    }
+});
+</script>
 {% endblock %}

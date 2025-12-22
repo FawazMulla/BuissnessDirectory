@@ -1,0 +1,217 @@
+{% extends "buisdict/base.html" %}
+{% load static %}
+
+{% block title %}Contact Us - Esypto{% endblock %}
+
+{% block content %}
+<div class="container py-6">
+    <!-- Page Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-4">Get in Touch</h1>
+        <p class="text-lg text-muted max-w-2xl mx-auto">
+            Have questions about Esypto? We're here to help you succeed. 
+            Reach out to our team and we'll get back to you as soon as possible.
+        </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <!-- Contact Form -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Send us a Message</h2>
+                <p class="text-muted">Fill out the form below and we'll respond within 24 hours</p>
+            </div>
+            
+            <div class="card-body">
+                <form method="post" data-validate data-ajax>
+                    {% csrf_token %}
+                    
+                    <div class="grid md:grid-cols-2 gap-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label for="id_first_name" class="form-label">First Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="id_first_name" 
+                                   name="first_name"
+                                   placeholder="Your first name"
+                                   required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_last_name" class="form-label">Last Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="id_last_name" 
+                                   name="last_name"
+                                   placeholder="Your last name"
+                                   required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_email" class="form-label">Email Address</label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="id_email" 
+                               name="email"
+                               placeholder="your.email@example.com"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_phone" class="form-label">Phone Number (Optional)</label>
+                        <input type="tel" 
+                               class="form-control" 
+                               id="id_phone" 
+                               name="phone"
+                               placeholder="Your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_subject" class="form-label">Subject</label>
+                        <select class="form-control" id="id_subject" name="subject" required>
+                            <option value="">Select a topic</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="business">Business Partnership</option>
+                            <option value="billing">Billing Question</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="bug">Report a Bug</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_message" class="form-label">Message</label>
+                        <textarea class="form-control" 
+                                  id="id_message" 
+                                  name="message"
+                                  rows="6"
+                                  placeholder="Tell us how we can help you..."
+                                  required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="newsletter">
+                            Subscribe to our newsletter for updates and tips
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Contact Information -->
+        <div class="space-y-6" style="display: flex; flex-direction: column; gap: 2rem;">
+            <!-- Contact Details -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-lg font-semibold">Contact Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="space-y-4" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="flex items-center gap-4" style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #3b82f6, #60a5fa); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-semibold mb-1">Email</h6>
+                                <p class="text-muted">support@esypto.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4" style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #34d399); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-semibold mb-1">Phone</h6>
+                                <p class="text-muted">+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4" style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-semibold mb-1">Address</h6>
+                                <p class="text-muted">123 Business Ave<br>Suite 100<br>Enterprise City, EC 12345</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4" style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-semibold mb-1">Business Hours</h6>
+                                <p class="text-muted">Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: 10:00 AM - 4:00 PM<br>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-lg font-semibold">Frequently Asked Questions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="space-y-4" style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <h6 class="font-semibold mb-2">How do I list my business?</h6>
+                            <p class="text-sm text-muted">Simply create an account and fill out your business profile. Our team will verify your information within 24-48 hours.</p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="font-semibold mb-2">Is Esypto free to use?</h6>
+                            <p class="text-sm text-muted">Yes! Basic business listings are completely free. We also offer premium features for enhanced visibility.</p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="font-semibold mb-2">How do I update my business information?</h6>
+                            <p class="text-sm text-muted">Log into your dashboard and click "Edit Profile" to update your business information at any time.</p>
+                        </div>
+                        
+                        <div>
+                            <h6 class="font-semibold mb-2">Can I remove my business listing?</h6>
+                            <p class="text-sm text-muted">Yes, you can deactivate or delete your listing from your dashboard settings or by contacting our support team.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Media -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-lg font-semibold">Follow Us</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">Stay connected with us on social media for the latest updates and business tips.</p>
+                    <div class="flex gap-3" style="display: flex; gap: 0.75rem;">
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fab fa-twitter"></i>
+                            Twitter
+                        </a>
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fab fa-linkedin-in"></i>
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

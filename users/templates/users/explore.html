@@ -1,39 +1,416 @@
 {% extends 'buisdict/base.html' %}
+{% load static %}
+
+{% block title %}
+{% if category %}
+Explore {{ category|title }} Businesses - Esypto
+{% else %}
+Explore Businesses - Esypto
+{% endif %}
+{% endblock %}
 
 {% block content %}
-<div class="container my-4">
-    <h2 class="mb-4">
-        {% if category %}
-            Explore {{ category|title }} Businesses
-        {% else %}
-            Explore All Businesses
-        {% endif %}
-    </h2>
-
-    {% for explore in explore_list %}
-    <div class="card mb-3 shadow-sm p-3"
-     style="cursor: pointer;"
-     onclick="window.location.href='{% url 'business_detail' explore.pk %}'">
-        <div class="card-body">
-            <h6 class="text-uppercase text-muted mb-1">{{ explore.entry_type }}</h6>
-            <h5 class="card-title mb-1"><strong>{{ explore.buiness_name }}</strong></h5>
-            <p class="mb-1">{{ explore.address }}</p>
-
-            {% if explore.google_map_link %}
-            <p class="mb-1">
-                <a href="{{ explore.google_map_link }}" target="_blank" class="text-primary">
-                    {{ explore.google_map_link }}
-                </a>
-            </p>
+<div class="container py-xl">
+    <!-- Page Header -->
+    <div class="text-center mb-lg">
+        <h1 style="font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: var(--space-lg); background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            {% if category %}
+                {{ category|title }} Businesses
+            {% else %}
+                Explore Businesses
             {% endif %}
+        </h1>
+        <p style="font-size: var(--font-size-lg); color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+            {% if category %}
+                Discover verified {{ category }} businesses and services in your area
+            {% else %}
+                Discover verified businesses and services across all categories
+            {% endif %}
+        </p>
+    </div>
 
-            <p class="mb-2">{{ explore.contact_no }}</p>
-            <div class="d-flex gap-3 text-muted small">
-                <span><i class=""></i>{{ explore.about }}</span>
-
+    <!-- Search and Filters -->
+    <div class="card" style="margin-bottom: var(--space-2xl);">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-lg); align-items: end;">
+            <!-- Search Input -->
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Search Businesses</label>
+                <div style="position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: var(--space-md); top: 50%; transform: translateY(-50%); color: var(--text-tertiary);"></i>
+                    <input type="text" 
+                           class="form-control" 
+                           placeholder="Search by name, service, or keyword..."
+                           data-search=".business-card"
+                           style="padding-left: 3rem;">
+                </div>
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Category</label>
+                <select class="form-control" data-filter="category">
+                    <option value="">All Categories</option>
+                    <option value="medical" {% if category == 'medical' %}selected{% endif %}>Healthcare</option>
+                    <option value="food" {% if category == 'food' %}selected{% endif %}>Food & Dining</option>
+                    <option value="technology">Technology</option>
+                    <option value="professional">Professional Services</option>
+                </select>
+            </div>
+            
+            <!-- Location Filter -->
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Location</label>
+                <select class="form-control" data-filter="location">
+                    <option value="">All Locations</option>
+                    <option value="downtown">Downtown</option>
+                    <option value="suburbs">Suburbs</option>
+                    <option value="online">Online</option>
+                </select>
+            </div>
+            
+            <!-- Sort Options -->
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Sort By</label>
+                <select class="form-control" id="sortSelect">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="newest">Newest First</option>
+                    <option value="popular">Most Popular</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Results Counter -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+            <div data-results-count style="font-size: var(--font-size-sm); color: var(--text-secondary);">
+                {{ explore_list|length }} businesses found
+            </div>
+            <div style="display: flex; gap: var(--space-sm);">
+                <button class="btn btn-secondary" id="gridView" style="padding: var(--space-sm); font-size: var(--font-size-sm);">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="btn btn-primary" id="listView" style="padding: var(--space-sm); font-size: var(--font-size-sm);">
+                    <i class="fas fa-list"></i>
+                </button>
             </div>
         </div>
     </div>
-    {% endfor %}
+
+    <!-- Business Listings -->
+    <div class="business-grid" data-search-container style="display: flex; flex-direction: column; gap: var(--space-xl);">
+        {% for business in explore_list %}
+        <div class="business-card" 
+             data-filterable
+             data-category="{{ business.profile_type|lower }}"
+             data-location="downtown"
+             onclick="window.location.href='{% url 'business_detail' business.pk %}'">
+            
+            <div style="display: flex; gap: var(--space-xl); align-items: flex-start;">
+                <!-- Business Image -->
+                <div style="flex-shrink: 0;">
+                    {% if business.image %}
+                        <img src="{{ business.image.url }}" 
+                             alt="{{ business.buiness_name }}"
+                             class="business-image">
+                    {% else %}
+                        <div class="business-image" style="background: var(--gradient-secondary); display: flex; align-items: center; justify-content: center; color: var(--espresso); font-size: var(--font-size-xl);">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Business Info -->
+                <div class="business-info">
+                    <!-- Header -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-sm);">
+                                <span class="business-category">{{ business.profile_type|default:"General" }}</span>
+                                <div class="business-rating">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span style="font-size: var(--font-size-sm); color: var(--text-tertiary);">(4.2)</span>
+                                </div>
+                            </div>
+                            <h3 class="business-title" data-searchable>{{ business.buiness_name }}</h3>
+                        </div>
+                        
+                        <button class="btn btn-secondary" 
+                                onclick="event.stopPropagation(); toggleFavorite(this);"
+                                style="padding: var(--space-sm); margin-left: var(--space-md);">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Contact Info -->
+                    <div class="business-contact-info">
+                        <!-- Address -->
+                        {% if business.address %}
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <p style="font-size: var(--font-size-sm); font-weight: 500; color: var(--text-primary); margin: 0;" data-searchable>{{ business.address }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Phone -->
+                        {% if business.contact_no %}
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <p style="font-size: var(--font-size-sm); font-weight: 500; color: var(--text-primary); margin: 0;">{{ business.contact_no }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- About -->
+                        {% if business.about %}
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin: 0;" data-searchable>{{ business.about|truncatewords:20 }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="business-actions">
+                        {% if business.google_map_link %}
+                        <a href="{{ business.google_map_link }}" 
+                           target="_blank" 
+                           class="btn btn-outline"
+                           onclick="event.stopPropagation();">
+                            <i class="fas fa-map"></i>
+                            View Map
+                        </a>
+                        {% endif %}
+                        
+                        {% if business.contact_no %}
+                        <a href="tel:{{ business.contact_no }}" 
+                           class="btn btn-primary"
+                           onclick="event.stopPropagation();">
+                            <i class="fas fa-phone"></i>
+                            Call Now
+                        </a>
+                        {% endif %}
+                        
+                        <button class="btn btn-secondary" 
+                                onclick="event.stopPropagation(); shareBusinesss('{{ business.buiness_name }}', '{% url 'business_detail' business.pk %}');">
+                            <i class="fas fa-share-alt"></i>
+                            Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; padding: var(--space-3xl) 0;">
+            <div style="color: var(--text-tertiary); margin-bottom: var(--space-lg);">
+                <i class="fas fa-search" style="font-size: 4rem;"></i>
+            </div>
+            <h3 style="font-size: var(--font-size-xl); font-weight: 600; color: var(--text-secondary); margin-bottom: var(--space-md);">No businesses found</h3>
+            <p style="color: var(--text-tertiary); margin-bottom: var(--space-lg);">
+                {% if category %}
+                    No {{ category }} businesses are currently listed.
+                {% else %}
+                    No businesses match your search criteria.
+                {% endif %}
+            </p>
+            <a href="{% url 'register' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                List Your Business
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Load More Button -->
+    {% if explore_list|length >= 12 %}
+    <div style="text-align: center; margin-top: var(--space-2xl);">
+        <button class="btn btn-success" id="loadMoreBtn" style="padding: var(--space-lg) var(--space-2xl); font-size: var(--font-size-lg);">
+            <i class="fas fa-plus"></i>
+            Load More Businesses
+        </button>
+    </div>
+    {% endif %}
 </div>
+
+<script>
+// Toggle favorite functionality
+function toggleFavorite(button) {
+    const icon = button.querySelector('i');
+    const isFavorited = icon.classList.contains('fas');
+    
+    if (isFavorited) {
+        icon.classList.remove('fas', 'fa-heart');
+        icon.classList.add('far', 'fa-heart');
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-secondary');
+    } else {
+        icon.classList.remove('far', 'fa-heart');
+        icon.classList.add('fas', 'fa-heart');
+        button.classList.remove('btn-secondary');
+        button.classList.add('btn-primary');
+    }
+}
+
+// View toggle functionality
+document.getElementById('gridView').addEventListener('click', function() {
+    const container = document.querySelector('.business-grid');
+    container.style.display = 'grid';
+    container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(400px, 1fr))';
+    container.style.gap = 'var(--space-xl)';
+    
+    // Update card layout for grid view
+    document.querySelectorAll('.business-card > div').forEach(cardContent => {
+        cardContent.style.flexDirection = 'column';
+        cardContent.style.textAlign = 'center';
+    });
+    
+    this.classList.remove('btn-secondary');
+    this.classList.add('btn-primary');
+    document.getElementById('listView').classList.remove('btn-primary');
+    document.getElementById('listView').classList.add('btn-secondary');
+});
+
+document.getElementById('listView').addEventListener('click', function() {
+    const container = document.querySelector('.business-grid');
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = 'var(--space-xl)';
+    
+    // Update card layout for list view
+    document.querySelectorAll('.business-card > div').forEach(cardContent => {
+        cardContent.style.flexDirection = 'row';
+        cardContent.style.textAlign = 'left';
+    });
+    
+    this.classList.remove('btn-secondary');
+    this.classList.add('btn-primary');
+    document.getElementById('gridView').classList.remove('btn-primary');
+    document.getElementById('gridView').classList.add('btn-secondary');
+});
+
+// Sort functionality
+document.getElementById('sortSelect').addEventListener('change', function() {
+    const container = document.querySelector('.business-grid');
+    const cards = Array.from(container.querySelectorAll('.business-card'));
+    const sortBy = this.value;
+    
+    cards.sort((a, b) => {
+        const titleA = a.querySelector('h3').textContent.trim();
+        const titleB = b.querySelector('h3').textContent.trim();
+        
+        switch(sortBy) {
+            case 'name':
+                return titleA.localeCompare(titleB);
+            case 'rating':
+                // For demo purposes, random sort
+                return Math.random() - 0.5;
+            case 'newest':
+                return Math.random() - 0.5;
+            case 'popular':
+                return Math.random() - 0.5;
+            default:
+                return 0;
+        }
+    });
+    
+    // Re-append sorted cards
+    cards.forEach(card => container.appendChild(card));
+});
+
+// Search functionality
+document.querySelector('[data-search]').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const cards = document.querySelectorAll('.business-card');
+    let visibleCount = 0;
+    
+    cards.forEach(card => {
+        const searchableElements = card.querySelectorAll('[data-searchable]');
+        let isVisible = false;
+        
+        searchableElements.forEach(element => {
+            if (element.textContent.toLowerCase().includes(searchTerm)) {
+                isVisible = true;
+            }
+        });
+        
+        if (searchTerm === '' || isVisible) {
+            card.style.display = 'block';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Update results count
+    document.querySelector('[data-results-count]').textContent = `${visibleCount} businesses found`;
+});
+
+// Share functionality
+function shareBusinesss(businessName, businessUrl) {
+    const fullUrl = window.location.origin + businessUrl;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: businessName,
+            text: `Check out ${businessName} on Esypto`,
+            url: fullUrl
+        }).catch(err => console.log('Error sharing:', err));
+    } else {
+        // Fallback to copying link
+        navigator.clipboard.writeText(fullUrl).then(() => {
+            alert('Business link copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+        });
+    }
+}
+
+// Initialize list view by default
+document.getElementById('listView').click();
+</script>
+
+<style>
+@media (max-width: 1024px) {
+    .card > div:first-child {
+        grid-template-columns: 1fr 1fr !important;
+        gap: var(--space-md) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .card > div:first-child {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-md) !important;
+    }
+    
+    .business-card > div {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    
+    .business-actions {
+        flex-direction: column !important;
+    }
+    
+    .business-actions .btn {
+        width: 100%;
+    }
+}
+</style>
 {% endblock %}
