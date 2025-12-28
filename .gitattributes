@@ -1,2 +1,14 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Ignore HTML and CSS files in language stats
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+
+# OR, if you want to be specific, ignore specific folders
+# (Replace 'static' or 'templates' with your actual folder names)
+static/* linguist-vendored
+templates/* linguist-vendored
+
+# Force Python to be the main language (optional)
+*.py linguist-language=Python
